@@ -6,282 +6,276 @@
 <title>TTE – MC CenaCheck</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+*{box-sizing:border-box}
 
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f4f6f8;
-        color: #1f2937;
-    }
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#1f2937
+}
 
-    .container {
-        max-width: 1500px;
-        margin: 0 auto;
-        padding: 25px;
-    }
+.container{
+    max-width:1500px;
+    margin:auto;
+    padding:25px
+}
 
-    h1 {
-        margin: 0 0 5px;
-        font-size: 30px;
-    }
+h1{
+    margin:0 0 5px;
+    font-size:30px
+}
 
-    .subtitle {
-        color: #6b7280;
-        margin-bottom: 25px;
-    }
+.subtitle{
+    color:#6b7280;
+    margin-bottom:8px
+}
 
-    .upload-box {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,.06);
-        margin-bottom: 20px;
-    }
+.last-update{
+    color:#6b7280;
+    font-size:13px;
+    margin-bottom:20px
+}
 
-    .upload-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
+.topbar{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    margin-bottom:20px
+}
 
-    .upload-item {
-        border: 2px dashed #d1d5db;
-        border-radius: 10px;
-        padding: 18px;
-    }
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap
+}
 
-    .upload-item h3 {
-        margin-top: 0;
-    }
+button{
+    border:0;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px
+}
 
-    input[type="file"] {
-        width: 100%;
-        margin-top: 10px;
-    }
+.refresh-btn{
+    background:#111827;
+    color:white
+}
 
-    .file-name {
-        margin-top: 8px;
-        font-size: 13px;
-        color: #6b7280;
-    }
+.export-btn{
+    background:#2563eb;
+    color:white
+}
 
-    .buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-        flex-wrap: wrap;
-    }
+button:hover{
+    opacity:.9
+}
 
-    button {
-        border: 0;
-        padding: 12px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 14px;
-    }
+.status-line{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap
+}
 
-    .compare-btn {
-        background: #111827;
-        color: white;
-    }
+.source-status{
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold
+}
 
-    .export-btn {
-        background: #2563eb;
-        color: white;
-    }
+.ok{
+    background:#dcfce7;
+    color:#166534
+}
 
-    .reset-btn {
-        background: #e5e7eb;
-        color: #111827;
-    }
+.error{
+    background:#fee2e2;
+    color:#991b1b
+}
 
-    button:hover {
-        opacity: .9;
-    }
+.loading{
+    background:#fef3c7;
+    color:#92400e
+}
 
-    .stats {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
-        margin-bottom: 20px;
-    }
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    margin-bottom:20px
+}
 
-    .stat {
-        background: white;
-        padding: 16px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,.05);
-    }
+.stat{
+    background:white;
+    padding:16px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05)
+}
 
-    .stat-title {
-        font-size: 13px;
-        color: #6b7280;
-        margin-bottom: 7px;
-    }
+.stat-title{
+    font-size:13px;
+    color:#6b7280;
+    margin-bottom:7px
+}
 
-    .stat-value {
-        font-size: 24px;
-        font-weight: bold;
-    }
+.stat-value{
+    font-size:24px;
+    font-weight:bold
+}
 
-    .filters {
-        background: white;
-        padding: 18px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
+.filters{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05)
+}
 
-    .filter-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 12px;
-    }
+.filter-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:12px
+}
 
-    input[type="text"],
-    select {
-        width: 100%;
-        padding: 11px;
-        border: 1px solid #d1d5db;
-        border-radius: 7px;
-        font-size: 14px;
-    }
+input[type="text"],
+select{
+    width:100%;
+    padding:11px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    font-size:14px
+}
 
-    .status-filters {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-    }
+.status-filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px
+}
 
-    .status-filter {
-        background: #f3f4f6;
-        color: #374151;
-        border: 1px solid #d1d5db;
-    }
+.status-filter{
+    background:#f3f4f6;
+    color:#374151;
+    border:1px solid #d1d5db
+}
 
-    .status-filter.active {
-        background: #111827;
-        color: white;
-    }
+.status-filter.active{
+    background:#111827;
+    color:white
+}
 
-    .table-wrapper {
-        background: white;
-        border-radius: 12px;
-        overflow: auto;
-        box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
+.table-wrapper{
+    background:white;
+    border-radius:12px;
+    overflow:auto;
+    box-shadow:0 2px 10px rgba(0,0,0,.05)
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 1050px;
-    }
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px
+}
 
-    th {
-        background: #111827;
-        color: white;
-        padding: 12px 10px;
-        text-align: left;
-        font-size: 13px;
-        position: sticky;
-        top: 0;
-        cursor: pointer;
-        white-space: nowrap;
-    }
+th{
+    background:#111827;
+    color:white;
+    padding:12px 10px;
+    text-align:left;
+    font-size:13px;
+    white-space:nowrap
+}
 
-    td {
-        padding: 11px 10px;
-        border-bottom: 1px solid #e5e7eb;
-        font-size: 13px;
-    }
+td{
+    padding:11px 10px;
+    border-bottom:1px solid #e5e7eb;
+    font-size:13px
+}
 
-    tr:hover td {
-        background: #f9fafb;
-    }
+tr:hover td{
+    background:#f9fafb
+}
 
-    .price {
-        text-align: right;
-        white-space: nowrap;
-    }
+.price{
+    text-align:right;
+    white-space:nowrap
+}
 
-    .profit-positive {
-        font-weight: bold;
-    }
+.profit-positive{
+    font-weight:bold
+}
 
-    .profit-negative {
-        font-weight: bold;
-    }
+.profit-negative{
+    font-weight:bold
+}
 
-    .profit-zero {
-        font-weight: bold;
-    }
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap
+}
 
-    .status {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: bold;
-        white-space: nowrap;
-    }
+.status-both{
+    background:#dcfce7;
+    color:#166534
+}
 
-    .status-both {
-        background: #dcfce7;
-        color: #166534;
-    }
+.status-tte{
+    background:#dbeafe;
+    color:#1e40af
+}
 
-    .status-tte {
-        background: #dbeafe;
-        color: #1e40af;
-    }
+.status-mc{
+    background:#f3e8ff;
+    color:#7e22ce
+}
 
-    .status-mc {
-        background: #f3e8ff;
-        color: #7e22ce;
-    }
+.status-noprice{
+    background:#f3f4f6;
+    color:#374151
+}
 
-    .status-noprice {
-        background: #f3f4f6;
-        color: #374151;
-    }
+.message{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    display:none
+}
 
-    .message {
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 8px;
-        display: none;
-    }
+.message.show{
+    display:block
+}
 
-    .message.error {
-        display: block;
-        background: #fee2e2;
-        color: #991b1b;
-    }
+.message.error-message{
+    background:#fee2e2;
+    color:#991b1b
+}
 
-    .message.success {
-        display: block;
-        background: #dcfce7;
-        color: #166534;
-    }
+.message.success-message{
+    background:#dcfce7;
+    color:#166534
+}
 
-    .empty {
-        text-align: center;
-        padding: 50px;
-        color: #6b7280;
-    }
+.empty{
+    text-align:center;
+    padding:50px;
+    color:#6b7280
+}
 
-    @media (max-width: 900px) {
-        .upload-grid,
-        .stats,
-        .filter-grid {
-            grid-template-columns: 1fr;
-        }
+@media(max-width:900px){
+    .stats,
+    .filter-grid{
+        grid-template-columns:1fr
     }
+}
 </style>
 </head>
 
@@ -290,51 +284,45 @@
 <div class="container">
 
     <h1>TTE – MC CenaCheck</h1>
+
     <div class="subtitle">
-        Poređenje cena između Typhon Trade Electronics i MobilniCirkus
+        Automatsko poređenje cena Typhon Trade Electronics i MobilniCirkus
     </div>
 
-    <div class="upload-box">
+    <div class="last-update" id="lastUpdate">
+        Učitavanje podataka...
+    </div>
 
-        <div class="upload-grid">
-
-            <div class="upload-item">
-                <h3>📦 TTE XML</h3>
-                <div>Izaberi XML fajl sa TTE proizvodima.</div>
-                <input type="file" id="tteFile" accept=".xml,text/xml">
-                <div class="file-name" id="tteFileName">
-                    Nije izabran fajl
-                </div>
-            </div>
-
-            <div class="upload-item">
-                <h3>🛒 MC XML</h3>
-                <div>Izaberi XML fajl sa MobilniCirkus proizvodima.</div>
-                <input type="file" id="mcFile" accept=".xml,text/xml">
-                <div class="file-name" id="mcFileName">
-                    Nije izabran fajl
-                </div>
-            </div>
-
-        </div>
+    <div class="topbar">
 
         <div class="buttons">
-            <button class="compare-btn" onclick="compareFiles()">
-                🔄 UPOREDI CENE
+
+            <button class="refresh-btn" onclick="loadData()">
+                🔄 OSVEŽI PODATKE
             </button>
 
             <button class="export-btn" onclick="exportCSV()">
                 📥 IZVEZI CSV
             </button>
 
-            <button class="reset-btn" onclick="resetApp()">
-                ↩ RESET
-            </button>
+        </div>
+
+        <div class="status-line">
+
+            <span id="tteStatus" class="source-status loading">
+                ⏳ TTE učitavanje...
+            </span>
+
+            <span id="mcStatus" class="source-status loading">
+                ⏳ MC učitavanje...
+            </span>
+
         </div>
 
         <div id="message" class="message"></div>
 
     </div>
+
 
     <div class="stats">
 
@@ -365,6 +353,7 @@
 
     </div>
 
+
     <div class="filters">
 
         <div class="filter-grid">
@@ -391,40 +380,41 @@
 
         </div>
 
+
         <div class="status-filters">
 
             <button
                 class="status-filter active"
                 data-status="ALL"
-                onclick="setStatusFilter('ALL', this)">
+                onclick="setStatusFilter('ALL',this)">
                 SVI
             </button>
 
             <button
                 class="status-filter"
                 data-status="OBA"
-                onclick="setStatusFilter('OBA', this)">
+                onclick="setStatusFilter('OBA',this)">
                 🟢 OBA
             </button>
 
             <button
                 class="status-filter"
                 data-status="SAMO TTE"
-                onclick="setStatusFilter('SAMO TTE', this)">
+                onclick="setStatusFilter('SAMO TTE',this)">
                 🔵 SAMO TTE
             </button>
 
             <button
                 class="status-filter"
                 data-status="SAMO MC"
-                onclick="setStatusFilter('SAMO MC', this)">
+                onclick="setStatusFilter('SAMO MC',this)">
                 🟣 SAMO MC
             </button>
 
             <button
                 class="status-filter"
                 data-status="NEMA CENE"
-                onclick="setStatusFilter('NEMA CENE', this)">
+                onclick="setStatusFilter('NEMA CENE',this)">
                 ⚪ NEMA CENE
             </button>
 
@@ -432,11 +422,13 @@
 
     </div>
 
+
     <div class="table-wrapper">
 
         <table>
 
             <thead>
+
                 <tr>
                     <th>ŠIFRA</th>
                     <th>NAZIV</th>
@@ -446,14 +438,17 @@
                     <th>MC ZARADA</th>
                     <th>STATUS</th>
                 </tr>
+
             </thead>
 
             <tbody id="tableBody">
+
                 <tr>
                     <td colspan="7" class="empty">
-                        Učitaj TTE i MC XML fajlove i klikni „UPOREDI CENE“.
+                        Učitavanje podataka...
                     </td>
                 </tr>
+
             </tbody>
 
         </table>
@@ -461,6 +456,7 @@
     </div>
 
 </div>
+
 
 <script>
 
@@ -474,11 +470,11 @@ let currentStatusFilter = "ALL";
 // POMOĆNE FUNKCIJE
 // --------------------------------------------------
 
-function getText(parent, tagName) {
+function getText(parent, tagName){
 
     const element = parent.querySelector(tagName);
 
-    if (!element) {
+    if(!element){
         return "";
     }
 
@@ -486,23 +482,25 @@ function getText(parent, tagName) {
 }
 
 
-function parsePrice(value) {
+function parsePrice(value){
 
-    if (!value) {
+    if(!value){
         return null;
     }
 
-    value = value
-        .replace(/\s/g, "")
+    value = String(value)
+        .replace(/\s/g,"")
         .replace(",", ".");
 
     const number = parseFloat(value);
 
-    return Number.isFinite(number) ? number : null;
+    return Number.isFinite(number)
+        ? number
+        : null;
 }
 
 
-function normalizeArticle(value) {
+function normalizeArticle(value){
 
     return String(value || "")
         .trim()
@@ -510,98 +508,117 @@ function normalizeArticle(value) {
 }
 
 
-function formatPrice(value) {
+function formatPrice(value){
 
-    if (value === null || value === undefined || !Number.isFinite(value)) {
+    if(
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value)
+    ){
         return "—";
     }
 
-    return new Intl.NumberFormat("sr-RS", {
-        maximumFractionDigits: 2
+    return new Intl.NumberFormat("sr-RS",{
+        maximumFractionDigits:2
     }).format(value) + " RSD";
 }
 
 
-function formatProfit(value) {
+function formatProfit(value){
 
-    if (value === null || value === undefined || !Number.isFinite(value)) {
+    if(
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value)
+    ){
         return "—";
     }
 
-    const formatted = new Intl.NumberFormat("sr-RS", {
-        maximumFractionDigits: 2
-    }).format(value);
+    const formatted =
+        new Intl.NumberFormat("sr-RS",{
+            maximumFractionDigits:2
+        }).format(value);
 
-    if (value > 0) {
-        return "+" + formatted + " RSD";
-    }
+    return value > 0
+        ? "+" + formatted + " RSD"
+        : formatted + " RSD";
+}
 
-    return formatted + " RSD";
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
 // --------------------------------------------------
-// ČITANJE XML-a
+// XML PARSER
 // --------------------------------------------------
 
-function parseXML(xmlText) {
+function parseXML(xmlText){
 
     const parser = new DOMParser();
 
-    const xml = parser.parseFromString(xmlText, "text/xml");
+    const xml =
+        parser.parseFromString(xmlText,"text/xml");
 
-    const parserError = xml.querySelector("parsererror");
+    const parserError =
+        xml.querySelector("parsererror");
 
-    if (parserError) {
-        throw new Error("XML fajl nije ispravan.");
+    if(parserError){
+        throw new Error("XML nije ispravan.");
     }
 
-    const products = xml.querySelectorAll("product");
+    const products =
+        xml.querySelectorAll("product");
+
+    if(!products.length){
+        throw new Error("Nisu pronađeni product elementi.");
+    }
 
     const map = new Map();
 
     products.forEach(product => {
 
-        const article = normalizeArticle(
-            getText(product, "article_number")
-        );
+        const article =
+            normalizeArticle(
+                getText(product,"article_number")
+            );
 
-        if (!article) {
+        if(!article){
             return;
         }
 
-        const item = {
+        map.set(article,{
 
-            article_number: article,
+            article_number:article,
 
-            name: getText(product, "name"),
+            name:getText(product,"name"),
 
-            category: getText(product, "category"),
+            category:getText(product,"category"),
 
-            brand: getText(product, "brand"),
+            brand:getText(product,"brand"),
 
-            price: parsePrice(
-                getText(product, "price")
+            price:parsePrice(
+                getText(product,"price")
             ),
 
-            netto_price: parsePrice(
-                getText(product, "netto_price")
+            netto_price:parsePrice(
+                getText(product,"netto_price")
             ),
 
-            ean: getText(product, "ean"),
+            ean:getText(product,"ean"),
 
-            url: getText(product, "url"),
+            url:getText(product,"url"),
 
-            quantity: getText(product, "quantity"),
+            quantity:getText(product,"quantity")
 
-            available: getText(
-                product,
-                "is_available_for_order"
-            )
-
-        };
-
-        map.set(article, item);
+        });
 
     });
 
@@ -610,184 +627,270 @@ function parseXML(xmlText) {
 
 
 // --------------------------------------------------
-// UČITAVANJE FAJLOVA
+// UČITAVANJE AUTOMATSKIH PODATAKA
 // --------------------------------------------------
 
-document
-    .getElementById("tteFile")
-    .addEventListener("change", function() {
+async function fetchXML(url){
 
-        const file = this.files[0];
-
-        document.getElementById("tteFileName").textContent =
-            file ? file.name : "Nije izabran fajl";
-
-    });
-
-
-document
-    .getElementById("mcFile")
-    .addEventListener("change", function() {
-
-        const file = this.files[0];
-
-        document.getElementById("mcFileName").textContent =
-            file ? file.name : "Nije izabran fajl";
-
-    });
-
-
-// --------------------------------------------------
-// GLAVNO POREĐENJE
-// --------------------------------------------------
-
-async function compareFiles() {
-
-    const tteFile =
-        document.getElementById("tteFile").files[0];
-
-    const mcFile =
-        document.getElementById("mcFile").files[0];
-
-    if (!tteFile || !mcFile) {
-
-        showMessage(
-            "Moraš izabrati oba XML fajla.",
-            "error"
+    const response =
+        await fetch(
+            url + "?v=" + Date.now(),
+            {
+                cache:"no-store"
+            }
         );
 
-        return;
+    if(!response.ok){
+        throw new Error(
+            "HTTP " + response.status
+        );
     }
 
-    try {
+    return await response.text();
+}
 
-        showMessage(
-            "Učitavam i obrađujem XML fajlove...",
-            "success"
-        );
 
-        const tteText =
-            await tteFile.text();
+async function loadData(){
 
-        const mcText =
-            await mcFile.text();
+    setSourceStatus(
+        "tteStatus",
+        "⏳ TTE učitavanje...",
+        "loading"
+    );
 
-        tteProducts =
-            parseXML(tteText);
+    setSourceStatus(
+        "mcStatus",
+        "⏳ MC učitavanje...",
+        "loading"
+    );
 
-        mcProducts =
-            parseXML(mcText);
+    showMessage(
+        "Učitavam najnovije dostupne podatke...",
+        "success-message"
+    );
 
-        comparisonData = [];
+    try{
 
-        const allArticles =
-            new Set([
-                ...tteProducts.keys(),
-                ...mcProducts.keys()
+        const results =
+            await Promise.allSettled([
+
+                fetchXML("data/tte.xml"),
+
+                fetchXML("data/mc.xml")
+
             ]);
 
 
-        allArticles.forEach(article => {
+        // TTE
 
-            const tte =
-                tteProducts.get(article);
+        if(results[0].status === "fulfilled"){
 
-            const mc =
-                mcProducts.get(article);
+            tteProducts =
+                parseXML(results[0].value);
 
+            setSourceStatus(
+                "tteStatus",
+                "🟢 TTE: " +
+                tteProducts.size.toLocaleString("sr-RS") +
+                " artikala",
+                "ok"
+            );
 
-            let status = "";
+        }else{
 
-            if (tte && mc) {
+            setSourceStatus(
+                "tteStatus",
+                "🔴 TTE greška",
+                "error"
+            );
 
-                if (
-                    tte.price === null ||
-                    mc.price === null
-                ) {
-                    status = "NEMA CENE";
-                } else {
-                    status = "OBA";
-                }
+            throw new Error(
+                "TTE podaci nisu dostupni."
+            );
 
-            } else if (tte) {
-
-                status = "SAMO TTE";
-
-            } else {
-
-                status = "SAMO MC";
-
-            }
+        }
 
 
-            const ttePrice =
-                tte ? tte.price : null;
+        // MC
 
-            const mcPrice =
-                mc ? mc.price : null;
+        if(results[1].status === "fulfilled"){
 
+            mcProducts =
+                parseXML(results[1].value);
 
-            let profit = null;
+            setSourceStatus(
+                "mcStatus",
+                "🟢 MC: " +
+                mcProducts.size.toLocaleString("sr-RS") +
+                " artikala",
+                "ok"
+            );
 
-            if (
-                ttePrice !== null &&
-                mcPrice !== null
-            ) {
+        }else{
 
-                profit =
-                    mcPrice - ttePrice;
+            setSourceStatus(
+                "mcStatus",
+                "🔴 MC greška",
+                "error"
+            );
 
-            }
+            throw new Error(
+                "MC podaci nisu dostupni."
+            );
 
-
-            comparisonData.push({
-
-                article_number: article,
-
-                name:
-                    (mc && mc.name) ||
-                    (tte && tte.name) ||
-                    "",
-
-                category:
-                    (mc && mc.category) ||
-                    (tte && tte.category) ||
-                    "",
-
-                ttePrice,
-
-                mcPrice,
-
-                profit,
-
-                status
-
-            });
-
-        });
+        }
 
 
-        updateStats();
+        buildComparison();
 
-        populateCategories();
+        document.getElementById("lastUpdate")
+            .textContent =
+            "Podaci učitani: " +
+            new Date().toLocaleString("sr-RS");
 
-        renderTable();
 
         showMessage(
-            `Poređenje završeno. Pronađeno ${comparisonData.length.toLocaleString("sr-RS")} artikala.`,
-            "success"
+            "Podaci su uspešno učitani.",
+            "success-message"
         );
 
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
         showMessage(
-            "Greška: " + error.message,
-            "error"
+            "Greška pri učitavanju: " +
+            error.message,
+            "error-message"
         );
 
     }
+
+}
+
+
+function setSourceStatus(id,text,type){
+
+    const element =
+        document.getElementById(id);
+
+    element.textContent = text;
+
+    element.className =
+        "source-status " + type;
+
+}
+
+
+// --------------------------------------------------
+// POREĐENJE
+// --------------------------------------------------
+
+function buildComparison(){
+
+    comparisonData = [];
+
+    const allArticles =
+        new Set([
+
+            ...tteProducts.keys(),
+
+            ...mcProducts.keys()
+
+        ]);
+
+
+    allArticles.forEach(article => {
+
+        const tte =
+            tteProducts.get(article);
+
+        const mc =
+            mcProducts.get(article);
+
+
+        let status;
+
+
+        if(tte && mc){
+
+            if(
+                tte.price === null ||
+                mc.price === null
+            ){
+
+                status = "NEMA CENE";
+
+            }else{
+
+                status = "OBA";
+
+            }
+
+        }else if(tte){
+
+            status = "SAMO TTE";
+
+        }else{
+
+            status = "SAMO MC";
+
+        }
+
+
+        const ttePrice =
+            tte ? tte.price : null;
+
+        const mcPrice =
+            mc ? mc.price : null;
+
+
+        let profit = null;
+
+
+        if(
+            ttePrice !== null &&
+            mcPrice !== null
+        ){
+
+            profit =
+                mcPrice - ttePrice;
+
+        }
+
+
+        comparisonData.push({
+
+            article_number:article,
+
+            name:
+                (mc && mc.name) ||
+                (tte && tte.name) ||
+                "",
+
+            category:
+                (mc && mc.category) ||
+                (tte && tte.category) ||
+                "",
+
+            ttePrice,
+
+            mcPrice,
+
+            profit,
+
+            status
+
+        });
+
+    });
+
+
+    updateStats();
+
+    populateCategories();
+
+    renderTable();
 
 }
 
@@ -796,51 +899,40 @@ async function compareFiles() {
 // STATISTIKA
 // --------------------------------------------------
 
-function updateStats() {
-
-    const total =
-        comparisonData.length;
-
-    const both =
-        comparisonData.filter(
-            x => x.status === "OBA"
-        ).length;
-
-    const onlyTTE =
-        comparisonData.filter(
-            x => x.status === "SAMO TTE"
-        ).length;
-
-    const onlyMC =
-        comparisonData.filter(
-            x => x.status === "SAMO MC"
-        ).length;
-
-    const noPrice =
-        comparisonData.filter(
-            x => x.status === "NEMA CENE"
-        ).length;
-
+function updateStats(){
 
     document.getElementById("totalCount")
         .textContent =
-        total.toLocaleString("sr-RS");
+        comparisonData.length
+            .toLocaleString("sr-RS");
+
 
     document.getElementById("bothCount")
         .textContent =
-        both.toLocaleString("sr-RS");
+        comparisonData.filter(
+            x => x.status === "OBA"
+        ).length.toLocaleString("sr-RS");
+
 
     document.getElementById("tteOnlyCount")
         .textContent =
-        onlyTTE.toLocaleString("sr-RS");
+        comparisonData.filter(
+            x => x.status === "SAMO TTE"
+        ).length.toLocaleString("sr-RS");
+
 
     document.getElementById("mcOnlyCount")
         .textContent =
-        onlyMC.toLocaleString("sr-RS");
+        comparisonData.filter(
+            x => x.status === "SAMO MC"
+        ).length.toLocaleString("sr-RS");
+
 
     document.getElementById("noPriceCount")
         .textContent =
-        noPrice.toLocaleString("sr-RS");
+        comparisonData.filter(
+            x => x.status === "NEMA CENE"
+        ).length.toLocaleString("sr-RS");
 
 }
 
@@ -849,7 +941,7 @@ function updateStats() {
 // KATEGORIJE
 // --------------------------------------------------
 
-function populateCategories() {
+function populateCategories(){
 
     const select =
         document.getElementById("categoryFilter");
@@ -857,14 +949,17 @@ function populateCategories() {
     const current =
         select.value;
 
+
     const categories =
         [...new Set(
+
             comparisonData
                 .map(x => x.category)
                 .filter(Boolean)
-        )]
-        .sort((a,b) =>
-            a.localeCompare(b, "sr")
+
+        )].sort(
+            (a,b) =>
+                a.localeCompare(b,"sr")
         );
 
 
@@ -886,7 +981,7 @@ function populateCategories() {
     });
 
 
-    if (categories.includes(current)) {
+    if(categories.includes(current)){
         select.value = current;
     }
 
@@ -897,15 +992,18 @@ function populateCategories() {
 // STATUS FILTER
 // --------------------------------------------------
 
-function setStatusFilter(status, button) {
+function setStatusFilter(status,button){
 
-    currentStatusFilter = status;
+    currentStatusFilter =
+        status;
+
 
     document
         .querySelectorAll(".status-filter")
-        .forEach(btn => {
-            btn.classList.remove("active");
-        });
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
 
     button.classList.add("active");
 
@@ -915,15 +1013,16 @@ function setStatusFilter(status, button) {
 
 
 // --------------------------------------------------
-// PRIKAZ TABELE
+// TABELA
 // --------------------------------------------------
 
-function renderTable() {
+function renderTable(){
 
     const tbody =
         document.getElementById("tableBody");
 
-    if (!comparisonData.length) {
+
+    if(!comparisonData.length){
 
         tbody.innerHTML = `
             <tr>
@@ -988,39 +1087,50 @@ function renderTable() {
 
     data.sort((a,b) => {
 
-        switch(sort) {
+        switch(sort){
 
             case "name":
+
                 return a.name.localeCompare(
                     b.name,
                     "sr"
                 );
 
+
             case "ttePrice":
+
                 return (
                     (a.ttePrice ?? -Infinity) -
                     (b.ttePrice ?? -Infinity)
                 );
 
+
             case "mcPrice":
+
                 return (
                     (a.mcPrice ?? -Infinity) -
                     (b.mcPrice ?? -Infinity)
                 );
 
+
             case "profitDesc":
+
                 return (
                     (b.profit ?? -Infinity) -
                     (a.profit ?? -Infinity)
                 );
 
+
             case "profitAsc":
+
                 return (
                     (a.profit ?? Infinity) -
                     (b.profit ?? Infinity)
                 );
 
+
             default:
+
                 return a.article_number.localeCompare(
                     b.article_number,
                     "sr"
@@ -1031,7 +1141,7 @@ function renderTable() {
     });
 
 
-    if (!data.length) {
+    if(!data.length){
 
         tbody.innerHTML = `
             <tr>
@@ -1048,27 +1158,26 @@ function renderTable() {
     tbody.innerHTML =
         data.map(item => {
 
-            let statusClass = "";
+            let statusClass;
+            let statusText;
 
-            let statusText = "";
 
-
-            if (item.status === "OBA") {
+            if(item.status === "OBA"){
 
                 statusClass = "status-both";
                 statusText = "🟢 OBA";
 
-            } else if (item.status === "SAMO TTE") {
+            }else if(item.status === "SAMO TTE"){
 
                 statusClass = "status-tte";
                 statusText = "🔵 SAMO TTE";
 
-            } else if (item.status === "SAMO MC") {
+            }else if(item.status === "SAMO MC"){
 
                 statusClass = "status-mc";
                 statusText = "🟣 SAMO MC";
 
-            } else {
+            }else{
 
                 statusClass = "status-noprice";
                 statusText = "⚪ NEMA CENE";
@@ -1078,27 +1187,29 @@ function renderTable() {
 
             let profitClass = "";
 
-            if (item.profit > 0) {
 
-                profitClass = "profit-positive";
+            if(item.profit > 0){
 
-            } else if (item.profit < 0) {
+                profitClass =
+                    "profit-positive";
 
-                profitClass = "profit-negative";
+            }else if(item.profit < 0){
 
-            } else if (item.profit === 0) {
-
-                profitClass = "profit-zero";
+                profitClass =
+                    "profit-negative";
 
             }
 
 
             return `
+
                 <tr>
 
                     <td>
                         <strong>
-                            ${escapeHTML(item.article_number)}
+                            ${escapeHTML(
+                                item.article_number
+                            )}
                         </strong>
                     </td>
 
@@ -1129,6 +1240,7 @@ function renderTable() {
                     </td>
 
                 </tr>
+
             `;
 
         }).join("");
@@ -1137,16 +1249,16 @@ function renderTable() {
 
 
 // --------------------------------------------------
-// CSV EXPORT
+// CSV
 // --------------------------------------------------
 
-function exportCSV() {
+function exportCSV(){
 
-    if (!comparisonData.length) {
+    if(!comparisonData.length){
 
         showMessage(
-            "Prvo učitaj XML fajlove i pokreni poređenje.",
-            "error"
+            "Nema podataka za izvoz.",
+            "error-message"
         );
 
         return;
@@ -1159,12 +1271,13 @@ function exportCSV() {
             .trim()
             .toLowerCase();
 
+
     const category =
         document.getElementById("categoryFilter")
             .value;
 
 
-    let data =
+    const data =
         comparisonData.filter(item => {
 
             const matchesSearch =
@@ -1197,6 +1310,7 @@ function exportCSV() {
 
 
     const headers = [
+
         "Šifra",
         "Naziv",
         "Kategorija",
@@ -1204,52 +1318,52 @@ function exportCSV() {
         "MC cena",
         "MC zarada",
         "Status"
+
     ];
 
 
-    const rows = data.map(item => [
+    const rows =
+        data.map(item => [
 
-        item.article_number,
+            item.article_number,
 
-        item.name,
+            item.name,
 
-        item.category,
+            item.category,
 
-        item.ttePrice ?? "",
+            item.ttePrice ?? "",
 
-        item.mcPrice ?? "",
+            item.mcPrice ?? "",
 
-        item.profit ?? "",
+            item.profit ?? "",
 
-        item.status
+            item.status
 
-    ]);
+        ]);
 
 
     const csv = [
 
         headers,
-
         ...rows
 
-    ]
-    .map(row =>
-        row
-            .map(value =>
-                `"${String(value)
-                    .replace(/"/g, '""')}"`
-            )
-            .join(";")
-    )
-    .join("\r\n");
+    ].map(row =>
+
+        row.map(value =>
+
+            `"${String(value)
+                .replace(/"/g,'""')}"`
+
+        ).join(";")
+
+    ).join("\r\n");
 
 
-    // BOM za Excel/WPS i pravilna slova č/ć/š/ž/đ
     const blob =
         new Blob(
             ["\uFEFF" + csv],
             {
-                type: "text/csv;charset=utf-8;"
+                type:"text/csv;charset=utf-8;"
             }
         );
 
@@ -1257,13 +1371,16 @@ function exportCSV() {
     const url =
         URL.createObjectURL(blob);
 
+
     const link =
         document.createElement("a");
+
 
     link.href = url;
 
     link.download =
         "TTE-MC-poredjenje.csv";
+
 
     link.click();
 
@@ -1273,87 +1390,10 @@ function exportCSV() {
 
 
 // --------------------------------------------------
-// RESET
-// --------------------------------------------------
-
-function resetApp() {
-
-    tteProducts.clear();
-
-    mcProducts.clear();
-
-    comparisonData = [];
-
-    currentStatusFilter = "ALL";
-
-
-    document.getElementById("tteFile").value = "";
-
-    document.getElementById("mcFile").value = "";
-
-    document.getElementById("tteFileName")
-        .textContent = "Nije izabran fajl";
-
-    document.getElementById("mcFileName")
-        .textContent = "Nije izabran fajl";
-
-    document.getElementById("searchInput")
-        .value = "";
-
-    document.getElementById("categoryFilter")
-        .innerHTML =
-        '<option value="">Sve kategorije</option>';
-
-
-    document.getElementById("totalCount")
-        .textContent = "0";
-
-    document.getElementById("bothCount")
-        .textContent = "0";
-
-    document.getElementById("tteOnlyCount")
-        .textContent = "0";
-
-    document.getElementById("mcOnlyCount")
-        .textContent = "0";
-
-    document.getElementById("noPriceCount")
-        .textContent = "0";
-
-
-    document
-        .querySelectorAll(".status-filter")
-        .forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-
-    document
-        .querySelector('[data-status="ALL"]')
-        .classList.add("active");
-
-
-    document.getElementById("tableBody")
-        .innerHTML = `
-            <tr>
-                <td colspan="7" class="empty">
-                    Učitaj TTE i MC XML fajlove i klikni „UPOREDI CENE“.
-                </td>
-            </tr>
-        `;
-
-
-    document.getElementById("message")
-        .style.display = "none";
-
-}
-
-
-// --------------------------------------------------
 // PORUKA
 // --------------------------------------------------
 
-function showMessage(text, type) {
+function showMessage(text,type){
 
     const message =
         document.getElementById("message");
@@ -1361,25 +1401,19 @@ function showMessage(text, type) {
     message.textContent = text;
 
     message.className =
-        "message " + type;
+        "message show " + type;
 
 }
 
 
 // --------------------------------------------------
-// ZAŠTITA OD HTML-a
+// AUTOMATSKO UČITAVANJE
 // --------------------------------------------------
 
-function escapeHTML(value) {
-
-    return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
+window.addEventListener(
+    "DOMContentLoaded",
+    loadData
+);
 
 </script>
 
