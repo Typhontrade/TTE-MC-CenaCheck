@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTE – MC CenaCheck</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        color: #1f2937;
+    }
+
+    .container {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 25px;
+    }
+
+    h1 {
+        margin: 0 0 5px;
+        font-size: 30px;
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-bottom: 25px;
+    }
+
+    .upload-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        margin-bottom: 20px;
+    }
+
+    .upload-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .upload-item {
+        border: 2px dashed #d1d5db;
+        border-radius: 10px;
+        padding: 18px;
+    }
+
+    .upload-item h3 {
+        margin-top: 0;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .file-name {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    button {
+        border: 0;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .compare-btn {
+        background: #111827;
+        color: white;
+    }
+
+    .export-btn {
+        background: #2563eb;
+        color: white;
+    }
+
+    .reset-btn {
+        background: #e5e7eb;
+        color: #111827;
+    }
+
+    button:hover {
+        opacity: .9;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .stat {
+        background: white;
+        padding: 16px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+
+    .stat-title {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 7px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .filters {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 12px;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+        font-size: 14px;
+    }
+
+    .status-filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+    }
+
+    .status-filter {
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+
+    .status-filter.active {
+        background: #111827;
+        color: white;
+    }
+
+    .table-wrapper {
+        background: white;
+        border-radius: 12px;
+        overflow: auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1050px;
+    }
+
+    th {
+        background: #111827;
+        color: white;
+        padding: 12px 10px;
+        text-align: left;
+        font-size: 13px;
+        position: sticky;
+        top: 0;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 11px 10px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 13px;
+    }
+
+    tr:hover td {
+        background: #f9fafb;
+    }
+
+    .price {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .profit-positive {
+        font-weight: bold;
+    }
+
+    .profit-negative {
+        font-weight: bold;
+    }
+
+    .profit-zero {
+        font-weight: bold;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .status-both {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-tte {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .status-mc {
+        background: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    .status-noprice {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .message {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .message.error {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .message.success {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 50px;
+        color: #6b7280;
+    }
+
+    @media (max-width: 900px) {
+        .upload-grid,
+        .stats,
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>TTE – MC CenaCheck</h1>
+    <div class="subtitle">
+        Poređenje cena između Typhon Trade Electronics i MobilniCirkus
+    </div>
+
+    <div class="upload-box">
+
+        <div class="upload-grid">
+
+            <div class="upload-item">
+                <h3>📦 TTE XML</h3>
+                <div>Izaberi XML fajl sa TTE proizvodima.</div>
+                <input type="file" id="tteFile" accept=".xml,text/xml">
+                <div class="file-name" id="tteFileName">
+                    Nije izabran fajl
+                </div>
+            </div>
+
+            <div class="upload-item">
+                <h3>🛒 MC XML</h3>
+                <div>Izaberi XML fajl sa MobilniCirkus proizvodima.</div>
+                <input type="file" id="mcFile" accept=".xml,text/xml">
+                <div class="file-name" id="mcFileName">
+                    Nije izabran fajl
+                </div>
+            </div>
+
+        </div>
+
+        <div class="buttons">
+            <button class="compare-btn" onclick="compareFiles()">
+                🔄 UPOREDI CENE
+            </button>
+
+            <button class="export-btn" onclick="exportCSV()">
+                📥 IZVEZI CSV
+            </button>
+
+            <button class="reset-btn" onclick="resetApp()">
+                ↩ RESET
+            </button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-title">UKUPNO ARTIKALA</div>
+            <div class="stat-value" id="totalCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">🟢 OBA</div>
+            <div class="stat-value" id="bothCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">🔵 SAMO TTE</div>
+            <div class="stat-value" id="tteOnlyCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">🟣 SAMO MC</div>
+            <div class="stat-value" id="mcOnlyCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">⚪ NEMA CENE</div>
+            <div class="stat-value" id="noPriceCount">0</div>
+        </div>
+
+    </div>
+
+    <div class="filters">
+
+        <div class="filter-grid">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Pretraži po šifri ili nazivu..."
+                oninput="renderTable()"
+            >
+
+            <select id="categoryFilter" onchange="renderTable()">
+                <option value="">Sve kategorije</option>
+            </select>
+
+            <select id="sortSelect" onchange="renderTable()">
+                <option value="article">Sortiraj: šifra</option>
+                <option value="name">Sortiraj: naziv</option>
+                <option value="ttePrice">Sortiraj: TTE cena</option>
+                <option value="mcPrice">Sortiraj: MC cena</option>
+                <option value="profitDesc">Sortiraj: MC zarada ↓</option>
+                <option value="profitAsc">Sortiraj: MC zarada ↑</option>
+            </select>
+
+        </div>
+
+        <div class="status-filters">
+
+            <button
+                class="status-filter active"
+                data-status="ALL"
+                onclick="setStatusFilter('ALL', this)">
+                SVI
+            </button>
+
+            <button
+                class="status-filter"
+                data-status="OBA"
+                onclick="setStatusFilter('OBA', this)">
+                🟢 OBA
+            </button>
+
+            <button
+                class="status-filter"
+                data-status="SAMO TTE"
+                onclick="setStatusFilter('SAMO TTE', this)">
+                🔵 SAMO TTE
+            </button>
+
+            <button
+                class="status-filter"
+                data-status="SAMO MC"
+                onclick="setStatusFilter('SAMO MC', this)">
+                🟣 SAMO MC
+            </button>
+
+            <button
+                class="status-filter"
+                data-status="NEMA CENE"
+                onclick="setStatusFilter('NEMA CENE', this)">
+                ⚪ NEMA CENE
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ŠIFRA</th>
+                    <th>NAZIV</th>
+                    <th>KATEGORIJA</th>
+                    <th>TTE CENA</th>
+                    <th>MC CENA</th>
+                    <th>MC ZARADA</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableBody">
+                <tr>
+                    <td colspan="7" class="empty">
+                        Učitaj TTE i MC XML fajlove i klikni „UPOREDI CENE“.
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let tteProducts = new Map();
+let mcProducts = new Map();
+let comparisonData = [];
+let currentStatusFilter = "ALL";
+
+
+// --------------------------------------------------
+// POMOĆNE FUNKCIJE
+// --------------------------------------------------
+
+function getText(parent, tagName) {
+
+    const element = parent.querySelector(tagName);
+
+    if (!element) {
+        return "";
+    }
+
+    return element.textContent.trim();
+}
+
+
+function parsePrice(value) {
+
+    if (!value) {
+        return null;
+    }
+
+    value = value
+        .replace(/\s/g, "")
+        .replace(",", ".");
+
+    const number = parseFloat(value);
+
+    return Number.isFinite(number) ? number : null;
+}
+
+
+function normalizeArticle(value) {
+
+    return String(value || "")
+        .trim()
+        .toUpperCase();
+}
+
+
+function formatPrice(value) {
+
+    if (value === null || value === undefined || !Number.isFinite(value)) {
+        return "—";
+    }
+
+    return new Intl.NumberFormat("sr-RS", {
+        maximumFractionDigits: 2
+    }).format(value) + " RSD";
+}
+
+
+function formatProfit(value) {
+
+    if (value === null || value === undefined || !Number.isFinite(value)) {
+        return "—";
+    }
+
+    const formatted = new Intl.NumberFormat("sr-RS", {
+        maximumFractionDigits: 2
+    }).format(value);
+
+    if (value > 0) {
+        return "+" + formatted + " RSD";
+    }
+
+    return formatted + " RSD";
+}
+
+
+// --------------------------------------------------
+// ČITANJE XML-a
+// --------------------------------------------------
+
+function parseXML(xmlText) {
+
+    const parser = new DOMParser();
+
+    const xml = parser.parseFromString(xmlText, "text/xml");
+
+    const parserError = xml.querySelector("parsererror");
+
+    if (parserError) {
+        throw new Error("XML fajl nije ispravan.");
+    }
+
+    const products = xml.querySelectorAll("product");
+
+    const map = new Map();
+
+    products.forEach(product => {
+
+        const article = normalizeArticle(
+            getText(product, "article_number")
+        );
+
+        if (!article) {
+            return;
+        }
+
+        const item = {
+
+            article_number: article,
+
+            name: getText(product, "name"),
+
+            category: getText(product, "category"),
+
+            brand: getText(product, "brand"),
+
+            price: parsePrice(
+                getText(product, "price")
+            ),
+
+            netto_price: parsePrice(
+                getText(product, "netto_price")
+            ),
+
+            ean: getText(product, "ean"),
+
+            url: getText(product, "url"),
+
+            quantity: getText(product, "quantity"),
+
+            available: getText(
+                product,
+                "is_available_for_order"
+            )
+
+        };
+
+        map.set(article, item);
+
+    });
+
+    return map;
+}
+
+
+// --------------------------------------------------
+// UČITAVANJE FAJLOVA
+// --------------------------------------------------
+
+document
+    .getElementById("tteFile")
+    .addEventListener("change", function() {
+
+        const file = this.files[0];
+
+        document.getElementById("tteFileName").textContent =
+            file ? file.name : "Nije izabran fajl";
+
+    });
+
+
+document
+    .getElementById("mcFile")
+    .addEventListener("change", function() {
+
+        const file = this.files[0];
+
+        document.getElementById("mcFileName").textContent =
+            file ? file.name : "Nije izabran fajl";
+
+    });
+
+
+// --------------------------------------------------
+// GLAVNO POREĐENJE
+// --------------------------------------------------
+
+async function compareFiles() {
+
+    const tteFile =
+        document.getElementById("tteFile").files[0];
+
+    const mcFile =
+        document.getElementById("mcFile").files[0];
+
+    if (!tteFile || !mcFile) {
+
+        showMessage(
+            "Moraš izabrati oba XML fajla.",
+            "error"
+        );
+
+        return;
+    }
+
+    try {
+
+        showMessage(
+            "Učitavam i obrađujem XML fajlove...",
+            "success"
+        );
+
+        const tteText =
+            await tteFile.text();
+
+        const mcText =
+            await mcFile.text();
+
+        tteProducts =
+            parseXML(tteText);
+
+        mcProducts =
+            parseXML(mcText);
+
+        comparisonData = [];
+
+        const allArticles =
+            new Set([
+                ...tteProducts.keys(),
+                ...mcProducts.keys()
+            ]);
+
+
+        allArticles.forEach(article => {
+
+            const tte =
+                tteProducts.get(article);
+
+            const mc =
+                mcProducts.get(article);
+
+
+            let status = "";
+
+            if (tte && mc) {
+
+                if (
+                    tte.price === null ||
+                    mc.price === null
+                ) {
+                    status = "NEMA CENE";
+                } else {
+                    status = "OBA";
+                }
+
+            } else if (tte) {
+
+                status = "SAMO TTE";
+
+            } else {
+
+                status = "SAMO MC";
+
+            }
+
+
+            const ttePrice =
+                tte ? tte.price : null;
+
+            const mcPrice =
+                mc ? mc.price : null;
+
+
+            let profit = null;
+
+            if (
+                ttePrice !== null &&
+                mcPrice !== null
+            ) {
+
+                profit =
+                    mcPrice - ttePrice;
+
+            }
+
+
+            comparisonData.push({
+
+                article_number: article,
+
+                name:
+                    (mc && mc.name) ||
+                    (tte && tte.name) ||
+                    "",
+
+                category:
+                    (mc && mc.category) ||
+                    (tte && tte.category) ||
+                    "",
+
+                ttePrice,
+
+                mcPrice,
+
+                profit,
+
+                status
+
+            });
+
+        });
+
+
+        updateStats();
+
+        populateCategories();
+
+        renderTable();
+
+        showMessage(
+            `Poređenje završeno. Pronađeno ${comparisonData.length.toLocaleString("sr-RS")} artikala.`,
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Greška: " + error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+// --------------------------------------------------
+// STATISTIKA
+// --------------------------------------------------
+
+function updateStats() {
+
+    const total =
+        comparisonData.length;
+
+    const both =
+        comparisonData.filter(
+            x => x.status === "OBA"
+        ).length;
+
+    const onlyTTE =
+        comparisonData.filter(
+            x => x.status === "SAMO TTE"
+        ).length;
+
+    const onlyMC =
+        comparisonData.filter(
+            x => x.status === "SAMO MC"
+        ).length;
+
+    const noPrice =
+        comparisonData.filter(
+            x => x.status === "NEMA CENE"
+        ).length;
+
+
+    document.getElementById("totalCount")
+        .textContent =
+        total.toLocaleString("sr-RS");
+
+    document.getElementById("bothCount")
+        .textContent =
+        both.toLocaleString("sr-RS");
+
+    document.getElementById("tteOnlyCount")
+        .textContent =
+        onlyTTE.toLocaleString("sr-RS");
+
+    document.getElementById("mcOnlyCount")
+        .textContent =
+        onlyMC.toLocaleString("sr-RS");
+
+    document.getElementById("noPriceCount")
+        .textContent =
+        noPrice.toLocaleString("sr-RS");
+
+}
+
+
+// --------------------------------------------------
+// KATEGORIJE
+// --------------------------------------------------
+
+function populateCategories() {
+
+    const select =
+        document.getElementById("categoryFilter");
+
+    const current =
+        select.value;
+
+    const categories =
+        [...new Set(
+            comparisonData
+                .map(x => x.category)
+                .filter(Boolean)
+        )]
+        .sort((a,b) =>
+            a.localeCompare(b, "sr")
+        );
+
+
+    select.innerHTML =
+        '<option value="">Sve kategorije</option>';
+
+
+    categories.forEach(category => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = category;
+
+        option.textContent = category;
+
+        select.appendChild(option);
+
+    });
+
+
+    if (categories.includes(current)) {
+        select.value = current;
+    }
+
+}
+
+
+// --------------------------------------------------
+// STATUS FILTER
+// --------------------------------------------------
+
+function setStatusFilter(status, button) {
+
+    currentStatusFilter = status;
+
+    document
+        .querySelectorAll(".status-filter")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+    renderTable();
+
+}
+
+
+// --------------------------------------------------
+// PRIKAZ TABELE
+// --------------------------------------------------
+
+function renderTable() {
+
+    const tbody =
+        document.getElementById("tableBody");
+
+    if (!comparisonData.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    Nema podataka za prikaz.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    const search =
+        document.getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const category =
+        document.getElementById("categoryFilter")
+            .value;
+
+
+    const sort =
+        document.getElementById("sortSelect")
+            .value;
+
+
+    let data =
+        comparisonData.filter(item => {
+
+            const matchesSearch =
+                !search ||
+                item.article_number
+                    .toLowerCase()
+                    .includes(search) ||
+                item.name
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesCategory =
+                !category ||
+                item.category === category;
+
+
+            const matchesStatus =
+                currentStatusFilter === "ALL" ||
+                item.status === currentStatusFilter;
+
+
+            return (
+                matchesSearch &&
+                matchesCategory &&
+                matchesStatus
+            );
+
+        });
+
+
+    data.sort((a,b) => {
+
+        switch(sort) {
+
+            case "name":
+                return a.name.localeCompare(
+                    b.name,
+                    "sr"
+                );
+
+            case "ttePrice":
+                return (
+                    (a.ttePrice ?? -Infinity) -
+                    (b.ttePrice ?? -Infinity)
+                );
+
+            case "mcPrice":
+                return (
+                    (a.mcPrice ?? -Infinity) -
+                    (b.mcPrice ?? -Infinity)
+                );
+
+            case "profitDesc":
+                return (
+                    (b.profit ?? -Infinity) -
+                    (a.profit ?? -Infinity)
+                );
+
+            case "profitAsc":
+                return (
+                    (a.profit ?? Infinity) -
+                    (b.profit ?? Infinity)
+                );
+
+            default:
+                return a.article_number.localeCompare(
+                    b.article_number,
+                    "sr"
+                );
+
+        }
+
+    });
+
+
+    if (!data.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    Nema artikala koji odgovaraju filterima.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        data.map(item => {
+
+            let statusClass = "";
+
+            let statusText = "";
+
+
+            if (item.status === "OBA") {
+
+                statusClass = "status-both";
+                statusText = "🟢 OBA";
+
+            } else if (item.status === "SAMO TTE") {
+
+                statusClass = "status-tte";
+                statusText = "🔵 SAMO TTE";
+
+            } else if (item.status === "SAMO MC") {
+
+                statusClass = "status-mc";
+                statusText = "🟣 SAMO MC";
+
+            } else {
+
+                statusClass = "status-noprice";
+                statusText = "⚪ NEMA CENE";
+
+            }
+
+
+            let profitClass = "";
+
+            if (item.profit > 0) {
+
+                profitClass = "profit-positive";
+
+            } else if (item.profit < 0) {
+
+                profitClass = "profit-negative";
+
+            } else if (item.profit === 0) {
+
+                profitClass = "profit-zero";
+
+            }
+
+
+            return `
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(item.article_number)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.name)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.category)}
+                    </td>
+
+                    <td class="price">
+                        ${formatPrice(item.ttePrice)}
+                    </td>
+
+                    <td class="price">
+                        ${formatPrice(item.mcPrice)}
+                    </td>
+
+                    <td class="price ${profitClass}">
+                        ${formatProfit(item.profit)}
+                    </td>
+
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${statusText}
+                        </span>
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+}
+
+
+// --------------------------------------------------
+// CSV EXPORT
+// --------------------------------------------------
+
+function exportCSV() {
+
+    if (!comparisonData.length) {
+
+        showMessage(
+            "Prvo učitaj XML fajlove i pokreni poređenje.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const search =
+        document.getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const category =
+        document.getElementById("categoryFilter")
+            .value;
+
+
+    let data =
+        comparisonData.filter(item => {
+
+            const matchesSearch =
+                !search ||
+                item.article_number
+                    .toLowerCase()
+                    .includes(search) ||
+                item.name
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesCategory =
+                !category ||
+                item.category === category;
+
+
+            const matchesStatus =
+                currentStatusFilter === "ALL" ||
+                item.status === currentStatusFilter;
+
+
+            return (
+                matchesSearch &&
+                matchesCategory &&
+                matchesStatus
+            );
+
+        });
+
+
+    const headers = [
+        "Šifra",
+        "Naziv",
+        "Kategorija",
+        "TTE cena",
+        "MC cena",
+        "MC zarada",
+        "Status"
+    ];
+
+
+    const rows = data.map(item => [
+
+        item.article_number,
+
+        item.name,
+
+        item.category,
+
+        item.ttePrice ?? "",
+
+        item.mcPrice ?? "",
+
+        item.profit ?? "",
+
+        item.status
+
+    ]);
+
+
+    const csv = [
+
+        headers,
+
+        ...rows
+
+    ]
+    .map(row =>
+        row
+            .map(value =>
+                `"${String(value)
+                    .replace(/"/g, '""')}"`
+            )
+            .join(";")
+    )
+    .join("\r\n");
+
+
+    // BOM za Excel/WPS i pravilna slova č/ć/š/ž/đ
+    const blob =
+        new Blob(
+            ["\uFEFF" + csv],
+            {
+                type: "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        "TTE-MC-poredjenje.csv";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+// --------------------------------------------------
+// RESET
+// --------------------------------------------------
+
+function resetApp() {
+
+    tteProducts.clear();
+
+    mcProducts.clear();
+
+    comparisonData = [];
+
+    currentStatusFilter = "ALL";
+
+
+    document.getElementById("tteFile").value = "";
+
+    document.getElementById("mcFile").value = "";
+
+    document.getElementById("tteFileName")
+        .textContent = "Nije izabran fajl";
+
+    document.getElementById("mcFileName")
+        .textContent = "Nije izabran fajl";
+
+    document.getElementById("searchInput")
+        .value = "";
+
+    document.getElementById("categoryFilter")
+        .innerHTML =
+        '<option value="">Sve kategorije</option>';
+
+
+    document.getElementById("totalCount")
+        .textContent = "0";
+
+    document.getElementById("bothCount")
+        .textContent = "0";
+
+    document.getElementById("tteOnlyCount")
+        .textContent = "0";
+
+    document.getElementById("mcOnlyCount")
+        .textContent = "0";
+
+    document.getElementById("noPriceCount")
+        .textContent = "0";
+
+
+    document
+        .querySelectorAll(".status-filter")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+
+    document
+        .querySelector('[data-status="ALL"]')
+        .classList.add("active");
+
+
+    document.getElementById("tableBody")
+        .innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    Učitaj TTE i MC XML fajlove i klikni „UPOREDI CENE“.
+                </td>
+            </tr>
+        `;
+
+
+    document.getElementById("message")
+        .style.display = "none";
+
+}
+
+
+// --------------------------------------------------
+// PORUKA
+// --------------------------------------------------
+
+function showMessage(text, type) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+// --------------------------------------------------
+// ZAŠTITA OD HTML-a
+// --------------------------------------------------
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
