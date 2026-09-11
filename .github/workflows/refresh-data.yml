@@ -3,7 +3,7 @@ name: Refresh TTE and MC data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
@@ -27,7 +27,9 @@ jobs:
           for i in 1 2 3 4 5; do
             echo "TTE pokušaj $i od 5..."
 
-            if curl -L --fail --connect-timeout 30 --max-time 180 \
+            if curl -L --fail \
+              --connect-timeout 30 \
+              --max-time 180 \
               "https://tte.rs/api/sr/products?output_type=xml&api_key=${TTE_API_KEY}" \
               -o data/tte.xml.tmp; then
 
@@ -53,7 +55,9 @@ jobs:
           for i in 1 2 3 4 5; do
             echo "MC pokušaj $i od 5..."
 
-            if curl -L --fail --connect-timeout 30 --max-time 180 \
+            if curl -L --fail \
+              --connect-timeout 30 \
+              --max-time 180 \
               "https://mobilnicirkus.rs/api/sr/products?output_type=xml&api_key=${MC_API_KEY}" \
               -o data/mc.xml.tmp; then
 
