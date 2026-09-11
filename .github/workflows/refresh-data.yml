@@ -16,27 +16,62 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create data folder
+        run: |
+          mkdir -p data
+
       - name: Download TTE XML
         env:
           TTE_API_KEY: ${{ secrets.TTE_API_KEY }}
         run: |
-          curl -L --fail \
-            "https://tte.rs/api/sr/products?output_type=xml&api_key=${TTE_API_KEY}" \
-            -o tte.xml
+          for i in 1 2 3 4 5; do
+            echo "TTE pokušaj $i od 5..."
+
+            if curl -L --fail --connect-timeout 30 --max-time 180 \
+              "https://tte.rs/api/sr/products?output_type=xml&api_key=${TTE_API_KEY}" \
+              -o data/tte.xml.tmp; then
+
+              if grep -q "<product" data/tte.xml.tmp; then
+                mv data/tte.xml.tmp data/tte.xml
+                echo "TTE XML uspešno preuzet."
+                exit 0
+              fi
+            fi
+
+            echo "TTE nije uspeo. Čekam 10 sekundi..."
+            rm -f data/tte.xml.tmp
+            sleep 10
+          done
+
+          echo "TTE XML nije moguće preuzeti."
+          exit 1
 
       - name: Download MC XML
         env:
           MC_API_KEY: ${{ secrets.MC_API_KEY }}
         run: |
-          curl -L --fail \
-            "https://mobilnicirkus.rs/api/sr/products?output_type=xml&api_key=${MC_API_KEY}" \
-            -o mc.xml
+          for i in 1 2 3 4 5; do
+            echo "MC pokušaj $i od 5..."
 
-      - name: Save downloaded XML files
-        run: |
-          mkdir -p data
-          mv tte.xml data/tte.xml
-          mv mc.xml data/mc.xml
+            if curl -L --fail --connect-timeout 30 --max-time 180 \
+              "https://mobilnicirkus.rs/api/sr/products?output_type=xml&api_key=${MC_API_KEY}" \
+              -o data/mc.xml.tmp; then
+
+              if grep -q "<product" data/mc.xml.tmp; then
+                mv data/mc.xml.tmp data/mc.xml
+                echo "MC XML uspešno preuzet."
+                exit 0
+              fi
+            fi
+
+            echo "MC nije uspeo. Čekam 10 sekundi..."
+            rm -f data/mc.xml.tmp
+            sleep 10
+          done
+
+          echo "MC XML nije moguće preuzeti."
+          echo "Prethodni MC XML ostaje sačuvan."
+          exit 0
 
       - name: Commit updated XML files
         run: |
@@ -46,7 +81,7 @@ jobs:
           git add data/tte.xml data/mc.xml
 
           if git diff --cached --quiet; then
-            echo "No changes in XML data."
+            echo "Nema promena u XML podacima."
           else
             git commit -m "Auto-refresh TTE and MC XML data"
             git push
