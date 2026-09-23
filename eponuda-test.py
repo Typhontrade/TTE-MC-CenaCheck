@@ -10,13 +10,6 @@ OUTPUT_JSON = "eponuda-test.json"
 
 TEST_PRODUCTS = 20
 
-SELLERS = {
-    "big bang": "Big Bang",
-    "bazzar": "Bazzar",
-    "eplaneta": "Eplaneta",
-    "superfon": "Superfon",
-}
-
 
 def clean_text(text):
     if not text:
@@ -25,12 +18,14 @@ def clean_text(text):
 
 
 def get_tte_products():
+
     tree = ET.parse(TTE_XML)
     root = tree.getroot()
 
     products = []
 
     for product in root.findall(".//product"):
+
         ean = clean_text(product.findtext("ean"))
 
         if not ean:
@@ -50,270 +45,454 @@ def get_tte_products():
     return products
 
 
-def search_eponuda(ean):
-    """
-    Pretraga javnog Eponuda sajta preko Google/Bing-style
-    query URL-a nije pouzdana, zato ovde koristimo direktnu
-    Eponuda pretragu.
-    """
-
-    query = urllib.parse.quote(ean)
-
-    url = f"https://www.eponuda.com/pretraga?q={query}"
+def get_page(url):
 
     request = urllib.request.Request(
         url,
         headers={
             "User-Agent": (
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "AppleWebKit/537.36 "
+                "(KHTML, like Gecko) "
                 "Chrome/153.0.0.0 Safari/537.36"
-            )
+            ),
+            "Accept-Language": "sr-RS,sr;q=0.9,en;q=0.8",
         },
     )
 
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            html = response.read().decode("utf-8", errors="ignore")
 
-        return html, url
+        with urllib.request.urlopen(request, timeout=30) as response:
+
+            return response.read().decode(
+                "utf-8",
+                errors="ignore"
+            )
 
     except Exception as e:
-        print(f"  Greška pri pristupu Eponudi: {e}")
-        return "", url
+
+        print("  GREŠKA:", e)
+
+        return ""
 
 
-def extract_product_url(html):
-    """
-    Pokušava da pronađe prvi Eponuda product URL.
-    """
+def search_eponuda(product):
 
-    patterns = [
-        r'href="(https://www\.eponuda\.com/[^"]+-cena-\d+)"',
-        r'href="(/[^"]+-cena-\d+)"',
-    ]
+    ean = product["ean"]
 
-    for pattern in patterns:
-        matches = re.findall(pattern, html, re.IGNORECASE)
+    name = product["tte_naziv"]
 
-        if matches:
-            url = matches[0]
+    # Prvo pokušavamo direktnu Eponuda pretragu po nazivu.
+    query = urllib.parse.quote(
+        f"{product['brand']} {name}"
+    )
 
-            if url.startswith("/"):
-                url = "https://www.eponuda.com" + url
+    url = (
+        "https://www.eponuda.com/"
+        f"pretraga?q={query}"
+    )
 
-            return url
+    print("  Pretraga:", url)
+
+    html = get_page(url)
+
+    return html, url
+
+
+def find_product_url(html):
+
+    if not html:
+        return None
+
+    # Eponuda product URL završava sa -cena-BROJ
+    pattern = (
+        r'https://www\.eponuda\.com/'
+        r'[^"\']+?-cena-\d+'
+    )
+
+    matches = re.findall(
+        pattern,
+        html,
+        re.IGNORECASE
+    )
+
+    if matches:
+
+        # ukloni moguće duplikate
+        unique = []
+
+        for url in matches:
+
+            if url not in unique:
+                unique.append(url)
+
+        return unique[0]
 
     return None
 
 
-def download_page(url):
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/153.0.0.0 Safari/537.36"
-            )
-        },
-    )
-
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            return response.read().decode("utf-8", errors="ignore")
-
-    except Exception as e:
-        print(f"  Greška pri učitavanju proizvoda: {e}")
-        return ""
-
-
-def extract_prices(html):
-    """
-    Pokušava da pronađe prodavce i njihove cene
-    iz HTML-a Eponuda stranice.
-
-    Ovo je TEST verzija.
-    Kada vidimo stvarnu strukturu HTML-a, prilagodićemo
-    parser precizno toj strukturi.
-    """
+def find_prices(html):
 
     result = {
+
         "eponuda_min": None,
         "eponuda_min_seller": None,
+
         "big_bang": None,
         "bazzar": None,
         "eplaneta": None,
         "superfon": None,
+
     }
 
-    # Pronalazimo blokove koji sadrže cenu + naziv prodavca.
-    # Za početni test pokušavamo da pronađemo RSD cene.
-    price_matches = re.findall(
-        r'([0-9][0-9\.,]{1,12})\s*(?:RSD|din)',
+    if not html:
+        return result
+
+    # Pretvori HTML u lakši tekst
+    text = re.sub(
+        r"<script.*?</script>",
+        " ",
         html,
-        re.IGNORECASE,
+        flags=re.IGNORECASE | re.DOTALL
     )
 
-    prices = []
+    text = re.sub(
+        r"<style.*?</style>",
+        " ",
+        text,
+        flags=re.IGNORECASE | re.DOTALL
+    )
 
-    for price in price_matches:
-        price = price.replace(".", "").replace(",", ".")
+    text = re.sub(
+        r"<[^>]+>",
+        " ",
+        text
+    )
+
+    text = re.sub(
+        r"\s+",
+        " ",
+        text
+    )
+
+    # ------------------------------------------------
+    # Pronađi sve RSD cene
+    # ------------------------------------------------
+
+    price_pattern = (
+        r"(\d{1,3}(?:[.\s]\d{3})*(?:,\d{1,2})?)"
+        r"\s*(?:din|RSD)"
+    )
+
+    prices = re.findall(
+        price_pattern,
+        text,
+        re.IGNORECASE
+    )
+
+    numeric_prices = []
+
+    for p in prices:
+
+        p = p.replace(".", "")
+        p = p.replace(" ", "")
+        p = p.replace(",", ".")
 
         try:
-            value = float(price)
+
+            value = float(p)
 
             if value > 0:
-                prices.append(value)
+                numeric_prices.append(value)
 
-        except ValueError:
+        except:
             pass
 
-    if prices:
-        result["eponuda_min"] = min(prices)
+    if numeric_prices:
 
-    # Prodavce tražimo u okolini njihovog naziva.
-    lower_html = html.lower()
-
-    for seller_key, seller_name in SELLERS.items():
-
-        if seller_key not in lower_html:
-            continue
-
-        # Uzmi deo HTML-a oko prvog pojavljivanja prodavca
-        position = lower_html.find(seller_key)
-
-        nearby = html[
-            max(0, position - 2000):
-            min(len(html), position + 5000)
-        ]
-
-        nearby_prices = re.findall(
-            r'([0-9][0-9\.,]{1,12})\s*(?:RSD|din)',
-            nearby,
-            re.IGNORECASE,
+        result["eponuda_min"] = min(
+            numeric_prices
         )
 
-        seller_prices = []
+    # ------------------------------------------------
+    # Prodavci
+    # ------------------------------------------------
 
-        for price in nearby_prices:
-            price = price.replace(".", "").replace(",", ".")
+    sellers = {
+
+        "big_bang": [
+            "Big Bang",
+            "BC Group",
+            "BCGROUP"
+        ],
+
+        "bazzar": [
+            "Bazzar"
+        ],
+
+        "eplaneta": [
+            "Eplaneta",
+            "ePlaneta"
+        ],
+
+        "superfon": [
+            "Superfon"
+        ],
+
+    }
+
+    lower = text.lower()
+
+    for key, names in sellers.items():
+
+        positions = []
+
+        for seller in names:
+
+            position = lower.find(
+                seller.lower()
+            )
+
+            if position >= 0:
+                positions.append(position)
+
+        if not positions:
+            continue
+
+        position = min(positions)
+
+        # Uzmi 1.500 karaktera oko prodavca
+        start = max(
+            0,
+            position - 1000
+        )
+
+        end = min(
+            len(text),
+            position + 2000
+        )
+
+        nearby = text[start:end]
+
+        nearby_prices = re.findall(
+            price_pattern,
+            nearby,
+            re.IGNORECASE
+        )
+
+        values = []
+
+        for p in nearby_prices:
+
+            p = p.replace(".", "")
+            p = p.replace(" ", "")
+            p = p.replace(",", ".")
 
             try:
-                value = float(price)
+
+                value = float(p)
 
                 if value > 0:
-                    seller_prices.append(value)
+                    values.append(value)
 
-            except ValueError:
+            except:
                 pass
 
-        if seller_prices:
-            result[seller_key.replace(" ", "_")] = min(seller_prices)
+        if values:
+
+            result[key] = min(values)
+
+    # ------------------------------------------------
+    # Najniža cena među poznatim prodavcima
+    # ------------------------------------------------
+
+    seller_prices = {
+
+        "Big Bang": result["big_bang"],
+        "Bazzar": result["bazzar"],
+        "Eplaneta": result["eplaneta"],
+        "Superfon": result["superfon"],
+
+    }
+
+    valid = {
+
+        seller: price
+        for seller, price
+        in seller_prices.items()
+        if price is not None
+
+    }
+
+    if valid:
+
+        seller = min(
+            valid,
+            key=valid.get
+        )
+
+        result["eponuda_min"] = valid[seller]
+        result["eponuda_min_seller"] = seller
 
     return result
 
 
 def main():
 
-    print("=" * 60)
-    print("EPONUDA TEST")
-    print("=" * 60)
+    print("=" * 70)
+    print("EPONUDA TEST - VERZIJA 2")
+    print("=" * 70)
 
     products = get_tte_products()
 
-    print(f"\nPronađeno TTE artikala za test: {len(products)}")
+    print(
+        f"\nTestira se {len(products)} TTE proizvoda."
+    )
 
     results = []
 
-    for index, product in enumerate(products, start=1):
+    for i, product in enumerate(
+        products,
+        start=1
+    ):
 
         print()
-        print("-" * 60)
-        print(f"{index}/{len(products)}")
-        print(f"TTE šifra: {product['tte_sifra']}")
-        print(f"Naziv: {product['tte_naziv']}")
-        print(f"EAN: {product['ean']}")
-        print(f"TTE cena: {product['tte_cena']}")
+        print("=" * 70)
 
-        html, search_url = search_eponuda(product["ean"])
+        print(
+            f"{i}/{len(products)}"
+        )
+
+        print(
+            f"TTE šifra: {product['tte_sifra']}"
+        )
+
+        print(
+            f"Naziv: {product['tte_naziv']}"
+        )
+
+        print(
+            f"EAN: {product['ean']}"
+        )
+
+        print(
+            f"TTE cena: {product['tte_cena']}"
+        )
 
         result = {
+
             **product,
-            "eponuda_search_url": search_url,
+
             "eponuda_url": None,
+
             "eponuda_min": None,
+
             "eponuda_min_seller": None,
+
             "big_bang": None,
+
             "bazzar": None,
+
             "eplaneta": None,
+
             "superfon": None,
+
             "match": "NEMA MATCHA",
+
         }
+
+        html, search_url = search_eponuda(
+            product
+        )
+
+        result["eponuda_search_url"] = search_url
 
         if not html:
-            print("  ❌ Nema odgovora sa Eponude")
 
-            results.append(result)
-            continue
-
-        product_url = extract_product_url(html)
-
-        if not product_url:
-            print("  ❌ Nije pronađena Eponuda stranica proizvoda")
-
-            results.append(result)
-            continue
-
-        print(f"  ✅ Eponuda proizvod: {product_url}")
-
-        product_html = download_page(product_url)
-
-        if not product_html:
-            results.append(result)
-            continue
-
-        prices = extract_prices(product_html)
-
-        result.update(prices)
-        result["eponuda_url"] = product_url
-        result["match"] = "MATCH EAN"
-
-        # Odredi najnižeg prodavca među poznatim prodavcima
-        seller_prices = {
-            "Big Bang": result["big_bang"],
-            "Bazzar": result["bazzar"],
-            "Eplaneta": result["eplaneta"],
-            "Superfon": result["superfon"],
-        }
-
-        valid_prices = {
-            seller: price
-            for seller, price in seller_prices.items()
-            if price is not None
-        }
-
-        if valid_prices:
-
-            lowest_seller = min(
-                valid_prices,
-                key=valid_prices.get
+            print(
+                "  ❌ Eponuda nije vratila stranicu."
             )
 
-            result["eponuda_min"] = valid_prices[lowest_seller]
-            result["eponuda_min_seller"] = lowest_seller
+            results.append(result)
 
-        print(f"  Najniža cena: {result['eponuda_min']}")
-        print(f"  Prodavac: {result['eponuda_min_seller']}")
-        print(f"  Big Bang: {result['big_bang']}")
-        print(f"  Bazzar: {result['bazzar']}")
-        print(f"  Eplaneta: {result['eplaneta']}")
-        print(f"  Superfon: {result['superfon']}")
+            continue
+
+        product_url = find_product_url(
+            html
+        )
+
+        if not product_url:
+
+            print(
+                "  ❌ Nije pronađena Eponuda stranica."
+            )
+
+            results.append(result)
+
+            continue
+
+        print(
+            "  ✅ pronađen proizvod:"
+        )
+
+        print(
+            f"  {product_url}"
+        )
+
+        product_html = get_page(
+            product_url
+        )
+
+        if not product_html:
+
+            results.append(result)
+
+            continue
+
+        prices = find_prices(
+            product_html
+        )
+
+        result.update(prices)
+
+        result["eponuda_url"] = product_url
+
+        result["match"] = "MATCH"
+
+        print(
+            f"  Eponuda MIN: "
+            f"{result['eponuda_min']}"
+        )
+
+        print(
+            f"  Prodavac: "
+            f"{result['eponuda_min_seller']}"
+        )
+
+        print(
+            f"  Big Bang: "
+            f"{result['big_bang']}"
+        )
+
+        print(
+            f"  Bazzar: "
+            f"{result['bazzar']}"
+        )
+
+        print(
+            f"  Eplaneta: "
+            f"{result['eplaneta']}"
+        )
+
+        print(
+            f"  Superfon: "
+            f"{result['superfon']}"
+        )
 
         results.append(result)
 
-        # Pauza između proizvoda
-        time.sleep(3)
+        # Pauza
+        time.sleep(2)
 
     with open(
         OUTPUT_JSON,
@@ -329,10 +508,15 @@ def main():
         )
 
     print()
-    print("=" * 60)
-    print("TEST ZAVRŠEN")
-    print("=" * 60)
-    print(f"Rezultat je sačuvan u: {OUTPUT_JSON}")
+    print("=" * 70)
+    print(
+        "TEST ZAVRŠEN"
+    )
+    print("=" * 70)
+
+    print(
+        f"Rezultat: {OUTPUT_JSON}"
+    )
 
 
 if __name__ == "__main__":
