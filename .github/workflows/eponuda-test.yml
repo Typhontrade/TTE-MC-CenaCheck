@@ -1,0 +1,56 @@
+name: Eponuda test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check files
+        run: |
+          echo "Provera TTE XML-a..."
+          ls -lh data/
+          echo ""
+          echo "Provera Python fajla..."
+          ls -lh eponuda-test.py
+
+      - name: Run Eponuda test
+        run: |
+          python eponuda-test.py
+
+      - name: Show result
+        run: |
+          echo ""
+          echo "======================================"
+          echo "EPONUDA TEST REZULTAT"
+          echo "======================================"
+          ls -lh eponuda-test.json
+          echo ""
+          head -100 eponuda-test.json
+
+      - name: Commit test result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add eponuda-test.json
+
+          if git diff --cached --quiet; then
+            echo "Nema promena."
+          else
+            git commit -m "Eponuda test results"
+            git push
+          fi
