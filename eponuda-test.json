@@ -5,7 +5,6 @@
     "brand": "ANKER",
     "ean": "194644021870",
     "tte_cena": "960",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=194644021870",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -13,7 +12,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=ANKER%20Anker%20kabl%20Usb%20Type%20C/%20Type%20C%200%2C9m%20bela"
   },
   {
     "tte_sifra": "80103",
@@ -21,7 +21,6 @@
     "brand": "ANKER",
     "ean": "194644018689",
     "tte_cena": "1020",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=194644018689",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -29,7 +28,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=ANKER%20Anker%20kabl%20Power%20Line%20lll%20Type%20C/Type%20C%200%2C9m%20bela"
   },
   {
     "tte_sifra": "70006",
@@ -37,7 +37,6 @@
     "brand": "XIAOMI",
     "ean": "6970244522184",
     "tte_cena": "588",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=6970244522184",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -45,7 +44,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=XIAOMI%20Xiaomi%20Mi%20In-Ear%20slu%C5%A1alice%20Basic%20crna"
   },
   {
     "tte_sifra": "70010",
@@ -53,7 +53,6 @@
     "brand": "XIAOMI",
     "ean": "6970244525529",
     "tte_cena": "1620",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=6970244525529",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -61,7 +60,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=XIAOMI%20Xiaomi%20Mi%20Router%204C"
   },
   {
     "tte_sifra": "85014",
@@ -69,7 +69,6 @@
     "brand": "PANASONIC",
     "ean": "5410853045243",
     "tte_cena": "828",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5410853045243",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -77,7 +76,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20baterije%20HHR-3MVE/2BC-2xAA%20punjive%201900%20mAh%202%20komada"
   },
   {
     "tte_sifra": "85017",
@@ -85,7 +85,6 @@
     "brand": "PANASONIC",
     "ean": "5410853047810",
     "tte_cena": "480",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5410853047810",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -93,7 +92,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20baterije%20LR20EPS/2BP-2xD%20Alkalne%20Everyday%202%20komada"
   },
   {
     "tte_sifra": "85019",
@@ -101,7 +101,6 @@
     "brand": "PANASONIC",
     "ean": "5410853063872",
     "tte_cena": "2820",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5410853063872",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -109,7 +108,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20punja%C4%8D%20K-KJ5OMCD20E%20gratis%202%20punjive%20baterije%202000mAh"
   },
   {
     "tte_sifra": "85006",
@@ -117,7 +117,6 @@
     "brand": "PANASONIC",
     "ean": "5410853048022",
     "tte_cena": "264",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5410853048022",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -125,7 +124,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20baterije%20LR03EPS/6BP-AAA%20Alkaline%20Everyday%206%20komada"
   },
   {
     "tte_sifra": "47000",
@@ -133,7 +133,6 @@
     "brand": "PANASONIC",
     "ean": "5025232621545",
     "tte_cena": "3468",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232621545",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -141,7 +140,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG1611FXH%20crna"
   },
   {
     "tte_sifra": "47001",
@@ -149,7 +149,6 @@
     "brand": "PANASONIC",
     "ean": "5025232624713",
     "tte_cena": "3468",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232624713",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -157,7 +156,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG1611FXW%20bela"
   },
   {
     "tte_sifra": "47002",
@@ -165,7 +165,6 @@
     "brand": "PANASONIC",
     "ean": "5025232624744",
     "tte_cena": "3468",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232624744",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -173,7 +172,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG1611FXC%20svetlo%20zelena"
   },
   {
     "tte_sifra": "47003",
@@ -181,7 +181,6 @@
     "brand": "PANASONIC",
     "ean": "5025232624751",
     "tte_cena": "3468",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232624751",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -189,7 +188,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG1611FXF%20bela-ljubi%C4%8Dasta"
   },
   {
     "tte_sifra": "47005",
@@ -197,7 +197,6 @@
     "brand": "PANASONIC",
     "ean": "5025232621798",
     "tte_cena": "6468",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232621798",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -205,7 +204,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG1612FXH%20crna"
   },
   {
     "tte_sifra": "47006",
@@ -213,7 +213,6 @@
     "brand": "PANASONIC",
     "ean": "5025232547326",
     "tte_cena": "4428",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232547326",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -221,7 +220,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TG2511FXT%20crna"
   },
   {
     "tte_sifra": "47007",
@@ -229,7 +229,6 @@
     "brand": "PANASONIC",
     "ean": "5025232784691",
     "tte_cena": "4068",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232784691",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -237,7 +236,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TGC210FXB%20crna"
   },
   {
     "tte_sifra": "47009",
@@ -245,7 +245,6 @@
     "brand": "PANASONIC",
     "ean": "5025232784783",
     "tte_cena": "7788",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=5025232784783",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -253,7 +252,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=PANASONIC%20Panasonic%20KX-TGC212FXB%20crna"
   },
   {
     "tte_sifra": "75002",
@@ -261,7 +261,6 @@
     "brand": "SAMSUNG",
     "ean": "8806090270123",
     "tte_cena": "1800",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=8806090270123",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -269,7 +268,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=SAMSUNG%20Samsung%20slu%C5%A1alice%20%28IC100%29%20Type%20C%20%28%20by%20AKG%29%20crna"
   },
   {
     "tte_sifra": "75003",
@@ -277,7 +277,6 @@
     "brand": "SAMSUNG",
     "ean": "8806090270062",
     "tte_cena": "1800",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=8806090270062",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -285,7 +284,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=SAMSUNG%20Samsung%20slu%C5%A1alice%20%28IC100%29%20Type%20C%20%28by%20AKG%29%20bela"
   },
   {
     "tte_sifra": "70022",
@@ -293,7 +293,6 @@
     "brand": "XIAOMI",
     "ean": "6934177738067",
     "tte_cena": "1356",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=6934177738067",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -301,7 +300,8 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=XIAOMI%20Xiaomi%20Mi%2033W%20zidni%20punja%C4%8D%20%28Type-A%2BType-C%29"
   },
   {
     "tte_sifra": "70034",
@@ -309,7 +309,6 @@
     "brand": "XIAOMI",
     "ean": "6934177716201",
     "tte_cena": "780",
-    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=6934177716201",
     "eponuda_url": null,
     "eponuda_min": null,
     "eponuda_min_seller": null,
@@ -317,6 +316,7 @@
     "bazzar": null,
     "eplaneta": null,
     "superfon": null,
-    "match": "NEMA MATCHA"
+    "match": "NEMA MATCHA",
+    "eponuda_search_url": "https://www.eponuda.com/pretraga?q=XIAOMI%20Xiaomi%20Mi%2037W%20Dual-Port%20auto-punja%C4%8D"
   }
 ]
