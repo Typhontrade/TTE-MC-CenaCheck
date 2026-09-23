@@ -1,0 +1,58 @@
+name: Eponuda direct test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Test direct Eponuda URL
+        run: |
+          python - <<'PY'
+          import urllib.request
+
+          url = "https://www.eponuda.com/data-kablovi-cene/anker-kabl-usb-type-c-type-c-0-9m-bela-cena-11430167"
+
+          print("Otvaram:")
+          print(url)
+          print()
+
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "User-Agent": "Mozilla/5.0",
+                  "Accept-Language": "sr-RS,sr;q=0.9,en;q=0.8",
+              }
+          )
+
+          try:
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  data = response.read()
+
+                  print("STATUS:", response.status)
+                  print("VELICINA:", len(data), "bytes")
+                  print()
+
+                  if response.status == 200 and len(data) > 10000:
+                      print("TEST: PASS")
+                  else:
+                      print("TEST: FAIL")
+
+          except Exception as e:
+              print("TEST: FAIL")
+              print("GRESKA:", e)
+              raise
+          PY
